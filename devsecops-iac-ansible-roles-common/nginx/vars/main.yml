@@ -1,0 +1,65 @@
+---
+server_name: localhost
+proxy_port: 3000
+default_config_path: /etc/nginx/conf.d/
+
+# nginx_configs:
+#   - http_port: 80
+#     https_port: 443
+#     redirect: true
+#     domain: haha-redirect.com
+#     path_log: /var/log/nginx/
+#     ssl_certificate_path: /etc/nginx/ssl/
+#     certificate_name: haha.com.cert
+#     certificate_key: haha.com.key
+#     server_upstreams:
+#       - server 172.16.80.59:8280;
+#       - server 172.16.80.59:8280;
+#     locations:
+#       - subpath: "/"
+#         proxy_pass: "http://upstream-haha-redirect.com"
+      
+#   - http_port: 80
+#     https_port: 443
+#     redirect: false
+#     domain: haha.com
+#     path_log: /var/log/nginx/
+#     ssl_certificate_path: /etc/nginx/ssl/
+#     certificate_name: haha.com.cert
+#     certificate_key: haha.com.key
+#     server_upstreams:
+#       - server 172.16.80.59:8280;
+#       - server 172.16.80.59:8280;
+#     locations:
+#       - subpath: "/"
+#         proxy_pass: "http://upstream-haha.com"
+
+#   - http_port: 80
+#     domain: haha-test.com
+#     path_log: /var/log/nginx/
+#     ssl_certificate_path: /etc/nginx/ssl/
+#     certificate_name: haha.com.cert
+#     certificate_key: haha.com.key
+#     server_upstreams:
+#       - server 172.16.40.60:80;
+#       - server 172.16.40.60:80;
+#     locations:
+#       - subpath: "/trustca-g1.crl"
+#         proxy_pass: "http://crl_trustca/trustca-g1.crl"
+#       - subpath: "/trustca-sha256.crl"
+#         proxy_pass: "http://crl_trustca/trustca-sha256.crl"
+#       - subpath: "/trustca-tsa.crl"
+#         proxy_pass: "http://crl_trustca/trustca-tsa.crl"
+  
+#   - http_port: 80
+#     domain: test.com
+#     path_log: /var/log/nginx/
+#     ssl_certificate_path: /etc/nginx/ssl/
+#     certificate_name: haha.com.cert
+#     certificate_key: haha.com.key
+#     server_upstreams: []
+#     #   - server 172.16.40.60:80;
+#     #   - server 172.16.40.60:80;
+#     locations:
+#       - subpath: "/"
+#         proxy_pass: "http://test:3000"

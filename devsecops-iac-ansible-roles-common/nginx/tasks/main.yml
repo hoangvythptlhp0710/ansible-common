@@ -1,0 +1,67 @@
+---
+# - name: Show OS distribution
+#   debug:
+#     msg: "Operating System: {{ ansible_distribution }},version: {{ ansible_distribution_version }}, Operating System Family: {{ ansible_os_family }}"
+
+# - name: Cập nhật cache 
+#   include_tasks: ./task-update.yml
+
+- name: Cài đặt Nginx
+  include_tasks: ./install-nginx.yml
+
+- name: Create path cert if it does not exist
+  file:
+    path: "{{ default_ssl_certificate_path }}"
+    state: directory
+
+# - name: Copy Cert
+#   copy:
+#     src: "{{ role_path }}/files/ssl/"
+#     dest: "{{ default_ssl_certificate_path }}"
+
+# - name: Copy Config to conf.d
+#   copy:
+#     src: "{{ role_path }}/files/config/conf.d"
+#     dest: "{{ default_config_path_confd }}"
+
+# - name: Copy Config to site-enabled
+#   copy:
+#     src: "{{ role_path }}/files/config/sites-enabled"
+#     dest: "{{ default_config_path_site_enabled }}"
+
+# - name: Khởi động và kích hoạt Nginx
+#   service:
+#     name: nginx
+#     state: started
+#     enabled: yes
+
+# - name: Insert config http and https
+#   template:
+#     src: nginx.default-http-https.conf.j2
+#     dest: "/etc/nginx/conf.d/{{ item.domain }}.conf"
+#   loop: "{{ nginx_configs }}"
+#   when: not item.redirect
+#   ignore_errors: yes
+
+# - name: Insert config http redirect to https
+#   template:
+#     src: nginx.default-https.conf.j2
+#     dest: "/etc/nginx/conf.d/{{ item.domain }}.conf"
+#   loop: "{{ nginx_configs }}"
+#   when: item.redirect
+#   ignore_errors: yes
+
+# - name: Insert config http redirect to https
+#   template:
+#     src: nginx-http.conf.j2
+#     dest: "/etc/nginx/conf.d/{{ item.domain }}.conf"
+#   loop: "{{ nginx_configs }}"
+#   when: item.http_port is defined and item.https_port is not defined 
+#   ignore_errors: yes
+
+# - name: Kiểm tra cấu hình Nginx và khởi động lại
+#   command: nginx -t
+#   register: nginx_test
+#   failed_when: nginx_test.rc != 0
+#   notify: 
+#     - Restart nginx

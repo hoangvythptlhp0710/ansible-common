@@ -1,0 +1,16 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_facts['os_family'] + '-' + ansible_facts['distribution_major_version'] }}.yml"
+    - "{{ ansible_facts['os_family'] }}.yml"
+
+- name: Populate service facts
+  service_facts:
+
+- name: Build ntp service name
+  set_fact: ntp_service_name="{{ __ntp_daemon }}.service"
+
+- name: Install ntp on VM
+  include_tasks: install_ntp.yaml
+  when: "ntp_service_name not in services"

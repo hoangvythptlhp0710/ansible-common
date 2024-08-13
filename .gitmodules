@@ -1,0 +1,3 @@
+[submodule "devsecops-iac-ansible-roles-common"]
+	path = devsecops-iac-ansible-roles-common
+	url = https://gitlab.savis.vn/devsecops/iac/ansible/devsecops-iac-ansible-roles-common

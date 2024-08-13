@@ -1,0 +1,26 @@
+---
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  when: disable_selinux
+
+- name: Disable the firewalld service (on RHEL, if configured).
+  service:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when: ansible_os_family == "RedHat" and disable_firewall
+
+- name: Disable the ufw firewall (on Ubuntu, if configured).
+  service:
+    name: ufw
+    state: stopped
+    enabled: false
+  when: ansible_distribution == "Ubuntu" and disable_firewall
+
+- name: Disable the ufw firewall (on Archlinux, if configured).
+  service:
+    name: ufw
+    state: stopped
+    enabled: false
+  when: ansible_distribution == "Archlinux" and disable_firewall

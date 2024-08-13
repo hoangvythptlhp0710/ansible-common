@@ -1,0 +1,27 @@
+- name: Create user accounts
+  user:
+    name: "{{ item.name }}"
+    groups: root
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Add authorized key for active user
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', 'files/publickey/' + item.name + '.pub') }}"
+    state: present
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.active
+
+- name: Remove authorized key for inactive user
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', 'files/' + item.name + '.pub') }}"
+    state: absent
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: not item.active

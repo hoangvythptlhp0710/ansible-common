@@ -1,0 +1,37 @@
+---
+- name: Stop mongod if running
+  systemd:
+    name: mongod
+    state: stopped
+
+- name: Copy replica config file to server
+  template:
+    src: templates/mongod.conf.j2
+    dest: /etc/mongod.conf
+
+- name: Start mongodb service with replica config
+  systemd:
+    name: mongod
+    state: started
+    enabled: true
+
+- name: Generate member list of repl set
+  set_fact: 
+    member_list: "{{ member_list | default([]) + [{ '_id': index, 'host': item + ':' + mongodb_default_port }] }}" 
+  with_items: "{{ groups['mongodb'] }}"
+  loop_control:
+    index_var: index
+
+- name: debug
+  debug:
+    msg: '{ _id: {{ mongodb_repl_name }}, members: {{ member_list }} }'
+
+- name: Init replicaset
+  community.mongodb.mongodb_shell:
+    mongo_cmd: mongo
+    eval: 'rs.initiate({ _id: "{{ mongodb_repl_name }}", members: {{ member_list }} })'
+
+- name: Check config
+  community.mongodb.mongodb_shell:
+    mongo_cmd: mongo
+    eval: 'rs.conf()'

@@ -1,0 +1,8 @@
+- name: Add/remove alert script to VM
+  include_tasks: ssh_alert.yaml
+
+- name: Create user, add/remove publickey
+  include_tasks: create_user.yaml
+
+- name: Grant user root privilege, turn off ssh with password
+  include_tasks: change_privilege.yaml

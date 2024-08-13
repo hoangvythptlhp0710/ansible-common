@@ -1,0 +1,25 @@
+---
+- name: Cập nhật cache apt cho Debian
+  apt:
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+# - name: Cập nhật cache apt cho Ubuntu
+#   apt:
+#     update_cache: yes
+#   when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Cập nhật cache yum cho RedHat
+  yum:
+    name: "*"
+    state: latest
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Cập nhật cache zypper cho SUSE
+  command: zypper refresh
+  when: ansible_facts['os_family'] == "Suse"
+
+- name: Cập nhật cache apk cho Alpine
+  apk:
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Alpine"

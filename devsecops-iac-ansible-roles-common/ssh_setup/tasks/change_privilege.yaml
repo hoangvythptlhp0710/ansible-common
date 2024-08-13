@@ -1,0 +1,24 @@
+- name: Allow root group to sudo without a password
+  lineinfile:
+    dest: "/etc/sudoers"
+    state: "present"
+    regexp: "^%root"
+    line: "%root ALL=(ALL) NOPASSWD: ALL"
+
+- name: Turn off ssh with password
+  replace:
+    path: "/etc/ssh/sshd_config"
+    regexp: "^PasswordAuthentication yes"
+    replace: "PasswordAuthentication no"
+
+- name: Reload sshd service
+  service:
+    name: sshd
+    state: restarted
+
+- name: Auto switch to root when SSH to VM
+  lineinfile:
+    dest: "/etc/profile"
+    state: "present"
+    regexp: "^sudo -s"
+    line: "sudo -s"

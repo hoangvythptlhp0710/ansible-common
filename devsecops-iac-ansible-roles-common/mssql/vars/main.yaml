@@ -1,0 +1,5 @@
+# Tested on RHEL 8
+# Default mssql port is 1433
+redhat_version: "8" # 7 or 8 or 9
+mssql_version: "2019" # 2017, 2019, 2022
+sa_pass: "Admin12345" # The password must be at least 8 characters long and contain characters from three of the following four sets: uppercase letters, lowercase letters, numbers, and symbols.

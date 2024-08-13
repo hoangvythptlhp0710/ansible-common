@@ -1,0 +1,18 @@
+---
+- name: Check install Nginx
+  command: nginx -v
+  register: check_nginx
+  ignore_errors: yes
+
+- name: Install Nginx for Debian
+  apt:
+    name: "nginx"
+    state: present
+  when: ansible_facts['os_family'] == 'Debian' and check_nginx.failed
+
+- name: Install Nginx for Redhat
+  yum:
+    name: "nginx"
+    state: present
+    enable: true
+  when: ansible_facts['os_family'] == 'RedHat' and check_nginx.failed

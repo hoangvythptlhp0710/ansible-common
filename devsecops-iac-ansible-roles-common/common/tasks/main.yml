@@ -1,0 +1,4 @@
+---
+- name: Task từ roles devsecops-iac-ansible-roles-common common
+  debug:
+    msg: "Đây là task từ devsecops-iac-ansible-roles-common common"

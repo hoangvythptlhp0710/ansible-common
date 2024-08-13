@@ -1,0 +1,9 @@
+# - name: Setup MongoDB for DR VTV
+#   hosts: mongodb
+#   roles:
+#     - mongodb
+
+- name: Setup MSSQL for DR VTV
+  hosts: mssql
+  roles:
+    - mssql

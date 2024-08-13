@@ -1,0 +1,5 @@
+- name: Install mongodb
+  include_tasks: install.yaml
+
+- name: Config mongodb replicaset
+  include_tasks: config.yaml

@@ -1,0 +1,6 @@
+redhat_version: "7" # 7 or 8 or 9
+mongodb_version: "4.4.10"
+mongodb_repl_name: "mongoReplSet"
+mongodb_default_port: "27017"
+mongodb_log_path: "/var/log/mongodb/mongod.log"
+mongodb_storage_path: /var/lib/mongo

@@ -1,0 +1,20 @@
+---
+- name: Copy mssql release repo file to server
+  template:
+    src: templates/mssql-release.repo.j2
+    dest: /etc/yum.repos.d/mssql-release.repo
+
+- name: Install SQL server tools
+  yum:
+    name:
+      - mssql-tools18
+      - unixODBC-devel
+    state: present
+    update_cache: true
+
+- name: Add tool to PATH variable
+  lineinfile:
+    path: "/etc/profile"
+    state: present
+    regexp: "^export PATH=\"$PATH:/opt/mssql-tools18/bin\""
+    line: "export PATH=\"$PATH:/opt/mssql-tools18/bin\""

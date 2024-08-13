@@ -1,0 +1,15 @@
+---
+- name: Stop PostgreSQL service
+  service:
+    name: postgresql
+    state: stopped
+
+- name: Copy postgresql config file to server
+  template:
+    src: templates/postgresql.conf.j2
+    dest: /var/lib/pgsql/data/postgresql.conf
+
+- name: Start PostgreSQL service
+  service:
+    name: postgresql
+    state: start

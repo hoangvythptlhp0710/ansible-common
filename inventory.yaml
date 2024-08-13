@@ -1,0 +1,15 @@
+mongodb:
+  hosts:
+    10.0.97.11:
+    10.0.97.12:
+    10.0.97.13:
+  vars:
+    ansible_user: root
+    ansible_ssh_pass: admin@123
+
+mssql:
+  hosts:
+    10.0.97.13:
+  vars:
+    ansible_user: root
+    ansible_ssh_pass: admin@123

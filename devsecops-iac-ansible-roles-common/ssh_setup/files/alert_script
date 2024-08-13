@@ -1,0 +1,16 @@
+if [ -n "$SSH_CLIENT" ]; then
+# Địa chỉ IP của máy ảo (VM)
+VM_IP=$(hostname -I | awk '{print $1}')
+
+# Lấy tên người dùng đăng nhập và địa chỉ IP của máy client từ môi trường SSH
+SSH_CLIENT_USER=$(whoami)
+
+# Lấy thời gian kết nối
+SSH_TIME=$(date +"%H:%M %d/%m/%Y")
+
+# Send alert to telegram
+MESSAGE="🧨 $SSH_TIME
+User $SSH_CLIENT_USER ssh into $VM_IP"
+
+curl -s -o /dev/null --location 'https://api.telegram.org/bot7083808750:AAH5RZR4FXiSi083fN5Dq7NY2EjGDFyi2GA/sendMessage' --header 'Content-Type: application/x-www-form-urlencoded'  --data-urlencode 'chat_id=-4170922626'  --data-urlencode "text=${MESSAGE}" --connect-timeout 5
+fi

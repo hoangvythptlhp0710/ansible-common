@@ -1,0 +1,5 @@
+- name: Setup mssql server
+  include_tasks: setup_mssql.yaml
+
+- name: Install SQL server tools
+  include_tasks: install_tool.yaml  

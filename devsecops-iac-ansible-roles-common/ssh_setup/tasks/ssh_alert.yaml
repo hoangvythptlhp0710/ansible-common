@@ -1,0 +1,17 @@
+- name: Generate template content
+  set_fact:
+    script_content: "{{ lookup('file', 'files/alert_script') }}"
+
+- name: Add alert script to end of /etc/profile
+  blockinfile:
+    path: /etc/profile
+    block: "{{ script_content }}"
+    state: "present"
+  when: "'alert' in group_names"
+  
+- name: Remove alert script to end of /etc/profile
+  blockinfile:
+    path: /etc/profile
+    block: "{{ script_content }}"
+    state: "absent"
+  when: "'alert' not in group_names"

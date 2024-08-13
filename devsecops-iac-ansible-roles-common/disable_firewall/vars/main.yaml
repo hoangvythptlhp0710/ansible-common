@@ -1,0 +1,2 @@
+disable_firewall: true
+disable_selinux: true

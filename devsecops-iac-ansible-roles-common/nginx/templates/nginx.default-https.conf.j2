@@ -1,0 +1,51 @@
+server {
+     #status_zone {{ item.domain }};
+    listen {{ item.http_port | default(default_http_port) }};
+    server_name {{ item.domain }};
+
+    return 301 https://{{ item.domain }};
+
+    error_log  {{ item.path_log | default('default_path_log') }}{{ item.domain }}-80-error.log;
+    access_log  {{ item.path_log | default('default_path_log') }}{{ item.domain }}-80-access.log;
+}
+
+server {
+     #status_zone {{ item.domain }};
+    listen 443 ssl;
+    server_name {{ item.domain }};
+
+    ssl_certificate      {{ item.ssl_certificate_path | default(default_ssl_certificate_path) }}{{ item.certificate_name }};
+    ssl_certificate_key  {{ item.ssl_certificate_path | default(default_ssl_certificate_path) }}{{ item.certificate_key }};
+
+    ssl_session_timeout  5m;
+    ssl_protocols  SSLv2 SSLv3 TLSv1.2 TLSv1.3 ;
+    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_prefer_server_ciphers   on;
+
+    {% for location in item.locations %}
+    location {{ location.subpath }} {
+        proxy_pass {{ location.proxy_pass }};
+        #health_check interval=10 fails=3 passes=2;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        client_max_body_size {{ item.client_max_body_size | default(default_client_max_body_size) }};
+        proxy_read_timeout {{ item.proxy_read_timeout | default(default_proxy_read_timeout) }};
+        proxy_connect_timeout {{ item.proxy_connect_timeout | default(default_proxy_connect_timeout) }};
+        proxy_send_timeout {{ item.proxy_send_timeout | default(default_proxy_send_timeout) }};
+    }
+
+    {% endfor %}
+
+    error_log  {{ item.path_log | default(default_path_log) }}{{ item.domain }}-443-error.log;
+    access_log  {{ item.path_log | default(default_path_log) }}{{ item.domain }}-443-access.log;
+}
+
+upstream upstream-{{ item.domain }} {
+  #zone upstream-{{ item.domain }} 64k;
+  {% for server_upstream in item.server_upstreams %}
+  {{ server_upstream }}
+  {% endfor %}
+}
+

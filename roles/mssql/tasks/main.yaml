@@ -1,0 +1,8 @@
+---
+- name: Inport variables
+  include_vars: 
+    vars/main.yaml 
+
+- name: Import role
+  include_role:
+    name: devsecops-iac-ansible-roles-common/mssql

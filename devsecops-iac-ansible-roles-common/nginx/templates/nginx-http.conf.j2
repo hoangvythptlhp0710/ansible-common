@@ -1,0 +1,23 @@
+server {
+    server_name {{ item.domain }};
+    charset utf-8;
+
+    {% for location in item.locations %}
+    location {{ location.subpath }} {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass {{ location.proxy_pass }};
+    }
+
+    {% endfor %}
+    
+}
+
+upstream upstream-{{ item.domain }} {
+  #zone upstream-{{ item.domain }} 64k;
+  {% for server_upstream in item.server_upstreams %}
+  {{ server_upstream }}
+  {% endfor %}
+}
+

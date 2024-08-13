@@ -1,0 +1,17 @@
+---
+- name: Establish mongodb major version
+  set_fact:
+    mongodb_major_version: "{{ mongodb_version[0:3] | string  }}"
+
+- name: Add YUM repository
+  template:
+    src: mongodb-org.repo.j2
+    dest: /etc/yum.repos.d/mongodb-org.repo
+    mode: 0644
+
+- name: Install MongoDB packages
+  yum:
+    name: "mongodb-org-{{ mongodb_version }}"
+    state: present
+    allow_downgrade: true
+    update_cache: true

@@ -1,0 +1,14 @@
+---
+- name: Install PostgresSQL
+  yum:
+    name: "postgresql-server"
+    state: present
+
+- name: Initialize PostgreSQL database cluster
+  command: "postgresql-setup --initdb"
+  become: true
+
+- name: Start PostgreSQL service
+  service:
+    name: postgresql
+    enabled: yes

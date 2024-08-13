@@ -1,0 +1,5 @@
+- name: Install postgresql
+  include_tasks: install.yaml
+
+- name: Config postgresql
+  include_tasks: config.yaml

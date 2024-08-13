@@ -1,0 +1,43 @@
+---
+- name: Install python2, which required by SQL server
+  yum:
+    name:
+      - python2
+      - compat-openssl10
+      - curl
+    state: present
+
+- name: Change default python interpreter
+  alternatives:
+    name: python
+    path: /usr/bin/python2
+    state: selected
+
+- name: Copy mssql server repo file to server
+  template:
+    src: templates/mssql-server.repo.j2
+    dest: /etc/yum.repos.d/mssql-server.repo
+
+- name: Install mssql server
+  yum:
+    name: mssql-server
+    state: present
+    update_cache: true
+
+- name: Stop mssql server to setup
+  systemd:
+    name: mssql-server
+    state: stopped
+
+- name: Install pexpect package to use expect module
+  pip:
+    name: pexpect
+    state: present
+
+- name: Setup mssql server
+  expect:
+    command: /opt/mssql/bin/mssql-conf setup
+    responses:
+      "Choose an edition of SQL Server:": "2"
+      "Enter the SQL Server system administrator password:": "{{ sa_pass }}"
+      "Confirm the SQL Server system administrator password:": "{{ sa_pass }}"

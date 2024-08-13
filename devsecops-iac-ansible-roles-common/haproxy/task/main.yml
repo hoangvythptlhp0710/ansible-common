@@ -1,0 +1,4 @@
+---
+- name: Task từ devsecops-iac-ansible-roles-common haproxy
+  debug:
+    msg: "Đây là task từ devsecops-iac-ansible-roles-common haproxy"
